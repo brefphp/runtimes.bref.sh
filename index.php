@@ -29,12 +29,36 @@ $regions = [
 
 $app->get('/', function (ServerRequestInterface $request, ResponseInterface $response) use ($regions) {
     $selectedRegion = $request->getQueryParams()['region'] ?? 'us-east-1';
-
     if (!in_array($selectedRegion, $regions)) {
         $response->getBody()->write('Unknown region');
         return $response;
     }
 
+    return $this->view->render($response, 'index.html.twig', [
+        'layers' => listLayers($selectedRegion),
+        'regions' => $regions,
+        'selectedRegion' => $selectedRegion,
+    ]);
+});
+
+$app->get('/embedded', function (ServerRequestInterface $request, ResponseInterface $response) use ($regions) {
+    $selectedRegion = $request->getQueryParams()['region'] ?? 'us-east-1';
+    if (!in_array($selectedRegion, $regions)) {
+        $response->getBody()->write('Unknown region');
+        return $response;
+    }
+
+    return $this->view->render($response, 'embedded.html.twig', [
+        'layers' => listLayers($selectedRegion),
+        'regions' => $regions,
+        'selectedRegion' => $selectedRegion,
+    ]);
+});
+
+$app->run();
+
+function listLayers(string $selectedRegion): array
+{
     $lambda = new \Aws\Lambda\LambdaClient([
         'version' => 'latest',
         'region' => $selectedRegion,
@@ -61,11 +85,5 @@ $app->get('/', function (ServerRequestInterface $request, ResponseInterface $res
         ];
     }
 
-    return $this->view->render($response, 'index.html.twig', [
-        'layers' => $layers,
-        'regions' => $regions,
-        'selectedRegion' => $selectedRegion,
-    ]);
-});
-
-$app->run();
+    return $layers;
+}

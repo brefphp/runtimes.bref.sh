@@ -1,5 +1,5 @@
 preview:
-	php -S 127.0.0.1:8000 index.php
+	sam local start-api
 
 deploy:
 	sam package \
