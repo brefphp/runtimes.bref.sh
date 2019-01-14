@@ -5,7 +5,11 @@ use Psr\Http\Message\ServerRequestInterface;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$app = new \Slim\App();
+$app = new \Slim\App([
+    'settings' => [
+        'displayErrorDetails' => false,
+    ],
+]);
 $container = $app->getContainer();
 $container['view'] = function () {
     return new \Slim\Views\Twig(__DIR__ . '/templates');
