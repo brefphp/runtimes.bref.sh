@@ -35,8 +35,46 @@ Resources:
                                 - lambda:ListLayers
                             Resource: '*'
 
-# Outputs show up in the CloudFormation dashboard
-Outputs:
-    DemoHttpApi:
-        Description: 'URL of our function in the *Prod* environment'
-        Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
+    # We use CloudFront in front of API Gateway to be able to redirect HTTP to HTTPS
+    # because API Gateway does not listen at all to HTTP requests.
+    WebsiteCDN:
+        Type: AWS::CloudFront::Distribution
+        Properties:
+            DistributionConfig:
+                Origins:
+                    # The lambda
+                    -   DomainName: !Sub '${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com'
+                        Id: Lambda
+                        OriginPath: '/Prod'
+                        CustomOriginConfig:
+                            # API Gateway only supports HTTPS
+                            OriginProtocolPolicy: 'https-only'
+                Enabled: true
+                # Cheapest option by default
+                # https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_DistributionConfig.html
+                PriceClass: PriceClass_100
+                DefaultCacheBehavior:
+                    AllowedMethods: [GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE]
+                    TargetOriginId: Lambda
+                    # No caching for Lambda
+                    DefaultTTL: 0
+                    MinTTL: 0
+                    MaxTTL: 0
+                    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-forwardedvalues.html
+                    ForwardedValues:
+                        QueryString: true
+                        # We must not forward the `Host` header else it messes up API Gateway
+                        Headers:
+                            - 'Accept'
+                            - 'Accept-Language'
+                            - 'Origin'
+                            - 'Referer'
+                    ViewerProtocolPolicy: redirect-to-https
+                # Custom domain name
+                Aliases:
+                    - runtimes.bref.sh
+                ViewerCertificate:
+                    # ARN of the certificate created in ACM
+                    AcmCertificateArn: arn:aws:acm:us-east-1:416566615250:certificate/313a125e-1155-4aff-a40f-08c932a2926d
+                    # See https://docs.aws.amazon.com/fr_fr/cloudfront/latest/APIReference/API_ViewerCertificate.html
+                    SslSupportMethod: 'sni-only'
