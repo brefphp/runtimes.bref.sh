@@ -26,7 +26,7 @@
     <section class="min-h-screen border-t-4 border-grey-dark flex items-center">
         <div class="container mx-auto py-10 lg:py-24 px-4">
 
-            <div class="inline-block relative w-64 float-right">
+            <div class="inline-block relative mb-3 md:float-right">
                 <select class="block appearance-none w-full bg-white border border-grey-light hover:border-grey px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                         id="regionSelector" onchange="changeRegion()">
                     {% for region in regions %}
@@ -47,14 +47,14 @@
                 <table class="w-full text-left table-collapse">
                     <tr class="text-grey-dark bg-grey-lightest uppercase text-sm">
                         <th class="p-3">Layer name</th>
-                        <th class="p-3">Latest version</th>
                         <th class="p-3">ARN</th>
+                        <th class="p-3">Latest version</th>
                     </tr>
                     {% for layer in layers %}
                         <tr>
                             <td class="p-3 border-t border-grey-light font-bold">{{ layer.name }}</td>
-                            <td class="p-3 border-t border-grey-light text-blue-dark">{{ layer.version }}</td>
-                            <td class="p-3 border-t border-grey-light text-grey-dark"><code class="font-mono">{{ layer.arn }}</code></td>
+                            <td class="p-3 border-t border-grey-light text-grey-dark text-xs md:text-sm"><code class="font-mono">{{ layer.arn }}</code></td>
+                            <td class="p-3 border-t border-grey-light text-blue-dark text-right">{{ layer.version }}</td>
                         </tr>
                     {% endfor %}
                 </table>
