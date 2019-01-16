@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b3d8892aead67f0d53d4a3dc04d6940",
+    "content-hash": "bc1055c19c21b6f9211fc11ab9fdefb0",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.85.1",
+            "version": "3.86.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "e232d117d0124ccb7059cd6db90f45dd23cda3f3"
+                "reference": "971494dfc1ef63aaffc7e909936d19140bef9ad6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e232d117d0124ccb7059cd6db90f45dd23cda3f3",
-                "reference": "e232d117d0124ccb7059cd6db90f45dd23cda3f3",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/971494dfc1ef63aaffc7e909936d19140bef9ad6",
+                "reference": "971494dfc1ef63aaffc7e909936d19140bef9ad6",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-01-11T19:22:05+00:00"
+            "time": "2019-01-16T18:53:53+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -720,16 +720,16 @@
         },
         {
             "name": "mnapoli/bref",
-            "version": "dev-0.3-merge-runtimes",
+            "version": "0.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mnapoli/bref.git",
-                "reference": "dac267b8517ab7eccf78dca0068dbc4ddebee8c8"
+                "reference": "1bcebd1bfa39e5b35129ac8344f03090e65c56e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/bref/zipball/dac267b8517ab7eccf78dca0068dbc4ddebee8c8",
-                "reference": "dac267b8517ab7eccf78dca0068dbc4ddebee8c8",
+                "url": "https://api.github.com/repos/mnapoli/bref/zipball/1bcebd1bfa39e5b35129ac8344f03090e65c56e5",
+                "reference": "1bcebd1bfa39e5b35129ac8344f03090e65c56e5",
                 "shasum": ""
             },
             "require": {
@@ -784,7 +784,7 @@
                 "lambda",
                 "serverless"
             ],
-            "time": "2019-01-13T22:28:29+00:00"
+            "time": "2019-01-16T18:01:16+00:00"
         },
         {
             "name": "mnapoli/silly",
@@ -1268,16 +1268,16 @@
         },
         {
             "name": "slim/slim",
-            "version": "3.11.0",
+            "version": "3.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "d378e70431e78ee92ee32ddde61ecc72edf5dc0a"
+                "reference": "f4947cc900b6e51cbfda58b9f1247bca2f76f9f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/d378e70431e78ee92ee32ddde61ecc72edf5dc0a",
-                "reference": "d378e70431e78ee92ee32ddde61ecc72edf5dc0a",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/f4947cc900b6e51cbfda58b9f1247bca2f76f9f0",
+                "reference": "f4947cc900b6e51cbfda58b9f1247bca2f76f9f0",
                 "shasum": ""
             },
             "require": {
@@ -1335,7 +1335,7 @@
                 "micro",
                 "router"
             ],
-            "time": "2018-09-16T10:54:21+00:00"
+            "time": "2019-01-15T13:21:25+00:00"
         },
         {
             "name": "slim/twig-view",
@@ -1858,16 +1858,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.6.0",
+            "version": "v2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "a11dd39f5b6589e14f0ff3b36675d06047c589b1"
+                "reference": "7d7342c8a4059fefb9b8d07db0cc14007021f9b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a11dd39f5b6589e14f0ff3b36675d06047c589b1",
-                "reference": "a11dd39f5b6589e14f0ff3b36675d06047c589b1",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7d7342c8a4059fefb9b8d07db0cc14007021f9b7",
+                "reference": "7d7342c8a4059fefb9b8d07db0cc14007021f9b7",
                 "shasum": ""
             },
             "require": {
@@ -1921,7 +1921,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2018-12-16T10:36:48+00:00"
+            "time": "2019-01-14T15:00:48+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",

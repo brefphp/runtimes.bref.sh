@@ -1,6 +1,6 @@
 {
     "require": {
-        "mnapoli/bref": "dev-0.3-merge-runtimes",
+        "mnapoli/bref": "0.3.x-dev",
         "aws/aws-sdk-php": "^3.85",
         "slim/slim": "^3.11",
         "slim/twig-view": "^2.4"
