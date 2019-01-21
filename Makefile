@@ -1,5 +1,5 @@
 preview:
-	sam local start-api
+	sam local start-api --region=us-east-1
 
 deploy:
 	sam package \

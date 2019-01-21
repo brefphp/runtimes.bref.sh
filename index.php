@@ -15,16 +15,21 @@ $container['view'] = function () {
     return new \Slim\Views\Twig(__DIR__ . '/templates');
 };
 $regions = [
-    'us-east-1',
-    'us-east-2',
-    'us-west-1',
-    'us-west-2',
     'ca-central-1',
     'eu-central-1',
     'eu-west-1',
     'eu-west-2',
     'eu-west-3',
     'sa-east-1',
+    'us-east-1',
+    'us-east-2',
+    'us-west-1',
+    'us-west-2',
+    'ap-south-1',
+    'ap-northeast-1',
+    'ap-northeast-2',
+    'ap-southeast-1',
+    'ap-southeast-2',
 ];
 
 $app->get('/', function (ServerRequestInterface $request, ResponseInterface $response) use ($regions) {
@@ -66,7 +71,13 @@ function listLayers(string $selectedRegion): array
 
     $result = $lambda->listLayers();
 
-    $filter = ['php-72', 'php-72-fpm', 'console'];
+    $filter = [
+        'php-73',
+        'php-73-fpm',
+        'php-72',
+        'php-72-fpm',
+        'console',
+    ];
 
     $layers = [];
     foreach ($result['Layers'] ?? [] as $layer) {
