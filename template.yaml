@@ -34,6 +34,10 @@ Resources:
                             Action:
                                 - lambda:ListLayers
                             Resource: '*'
+                        -   Effect: Allow
+                            Action:
+                                - lambda:ListLayerVersions
+                            Resource: '*'
 
     # We use CloudFront in front of API Gateway to be able to redirect HTTP to HTTPS
     # because API Gateway does not listen at all to HTTP requests.
