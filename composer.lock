@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc1055c19c21b6f9211fc11ab9fdefb0",
+    "content-hash": "4c3ff99c9a56587e44ccd3244a0e7414",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.86.0",
+            "version": "3.87.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "971494dfc1ef63aaffc7e909936d19140bef9ad6"
+                "reference": "7c00779a343c9b813628bf6a27b94945272ced93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/971494dfc1ef63aaffc7e909936d19140bef9ad6",
-                "reference": "971494dfc1ef63aaffc7e909936d19140bef9ad6",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/7c00779a343c9b813628bf6a27b94945272ced93",
+                "reference": "7c00779a343c9b813628bf6a27b94945272ced93",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-01-16T18:53:53+00:00"
+            "time": "2019-01-25T22:29:49+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -720,16 +720,16 @@
         },
         {
             "name": "mnapoli/bref",
-            "version": "0.3.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mnapoli/bref.git",
-                "reference": "1bcebd1bfa39e5b35129ac8344f03090e65c56e5"
+                "reference": "043c7a90536cc3e3e5f0f14007326ef3cbbdfcef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/bref/zipball/1bcebd1bfa39e5b35129ac8344f03090e65c56e5",
-                "reference": "1bcebd1bfa39e5b35129ac8344f03090e65c56e5",
+                "url": "https://api.github.com/repos/mnapoli/bref/zipball/043c7a90536cc3e3e5f0f14007326ef3cbbdfcef",
+                "reference": "043c7a90536cc3e3e5f0f14007326ef3cbbdfcef",
                 "shasum": ""
             },
             "require": {
@@ -750,6 +750,7 @@
             },
             "require-dev": {
                 "doctrine/coding-standard": "^5.0",
+                "guzzlehttp/guzzle": "^6.3",
                 "illuminate/contracts": "^5.0",
                 "illuminate/http": "^5.0",
                 "laravel/framework": "^5.6",
@@ -784,7 +785,7 @@
                 "lambda",
                 "serverless"
             ],
-            "time": "2019-01-16T18:01:16+00:00"
+            "time": "2019-01-30T15:48:59+00:00"
         },
         {
             "name": "mnapoli/silly",

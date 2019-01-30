@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use function GuzzleHttp\Promise\unwrap;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -69,9 +70,7 @@ function listLayers(string $selectedRegion): array
         'region' => $selectedRegion,
     ]);
 
-    $result = $lambda->listLayers();
-
-    $filter = [
+    $layerNames = [
         'php-73',
         'php-73-fpm',
         'php-72',
@@ -79,20 +78,26 @@ function listLayers(string $selectedRegion): array
         'console',
     ];
 
-    $layers = [];
-    foreach ($result['Layers'] ?? [] as $layer) {
-        $layerName = $layer['LayerName'];
-        if (! in_array($layerName, $filter)) {
-            continue;
-        }
+    // Run the API calls in parallel (thanks to async)
+    $promises = array_combine($layerNames, array_map(function (string $layerName) use ($lambda, $selectedRegion) {
+        return $lambda->listLayerVersionsAsync([
+            'LayerName' => "arn:aws:lambda:$selectedRegion:209497400698:layer:$layerName",
+            'MaxItems' => 1,
+        ]);
+    }, $layerNames));
 
-        $latestVersion = $layer['LatestMatchingVersion'];
-        $latestVersionNumber = $latestVersion['Version'];
-        $latestVersionArn = $latestVersion['LayerVersionArn'];
+    // Wait on all of the requests to complete. Throws a ConnectException
+    // if any of the requests fail
+    $results = unwrap($promises);
+
+    $layers = [];
+    foreach ($results as $layerName => $result) {
+        $versions = $result['LayerVersions'];
+        $latestVersion = end($versions);
         $layers[] = [
             'name' => $layerName,
-            'version' => $latestVersionNumber,
-            'arn' => $latestVersionArn,
+            'version' => $latestVersion['Version'],
+            'arn' => $latestVersion['LayerVersionArn'],
         ];
     }
 
