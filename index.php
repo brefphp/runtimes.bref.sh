@@ -32,6 +32,8 @@ $regions = [
     'ap-northeast-2',
     'ap-southeast-1',
     'ap-southeast-2',
+    'cn-northwest-1',
+    'cn-north-1',
 ];
 
 $app->get('/', function (ServerRequestInterface $request, ResponseInterface $response) use ($regions) {
