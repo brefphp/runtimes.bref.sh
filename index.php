@@ -72,6 +72,8 @@ function listLayers(string $selectedRegion): array
     ]);
 
     $layerNames = [
+        'php-74',
+        'php-74-fpm',
         'php-73',
         'php-73-fpm',
         'php-72',
