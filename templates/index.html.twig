@@ -25,18 +25,41 @@
 <body class="font-sans home">
     <section class="min-h-screen border-t-4 border-grey-dark flex items-center">
         <div class="container mx-auto py-10 lg:py-24 px-4">
-
-            <div class="inline-block relative mb-3 md:float-right">
-                <select class="block appearance-none w-full bg-white border border-grey-light hover:border-grey px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                        id="regionSelector" onchange="changeRegion()">
-                    {% for region in regions %}
-                        <option {% if region == selectedRegion %}selected{% endif %}>{{ region }}</option>
-                    {% endfor %}
-                </select>
-                <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
-                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            <form>
+                <div class="md:float-right">
+                    <label class="inline-block py-2 leading-normal" for="regionSelector">
+                        Region
+                    </label>
+                    <div class="inline-block relative ml-2 mb-3">
+                        <select class="block appearance-none w-full bg-white border border-grey-light hover:border-grey px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                                id="regionSelector" name="region" onchange="this.form.submit()">
+                            {% for region in regions %}
+                                <option value="{{ region }}" {% if region == selectedRegion %}selected{% endif %}>{{ region }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                <div class="md:float-right mr-6">
+                    <label class="inline-block py-2 leading-normal" for="versionSelector">
+                        Bref version
+                    </label>
+                    <div class="inline-block relative ml-2 mb-3">
+                        <select class="block appearance-none w-full bg-white border border-grey-light hover:border-grey px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                                id="versionSelector" name="version" onchange="this.form.submit()">
+                            {% for version in versions %}
+                                <option value="{{ version }}" {% if version == selectedVersion %}selected{% endif %}>{{ version }}{%  if loop.first %} (latest){% endif %}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
             <h1 class="font-serif mb-2">Bref runtime versions</h1>
             <div class="text-lg text-grey-dark mb-12">
@@ -64,12 +87,5 @@
 
         </div>
     </section>
-
-    <script>
-        function changeRegion() {
-            const region = document.getElementById('regionSelector').value;
-            window.location.search = '?region=' + region;
-        }
-    </script>
 </body>
 </html>
