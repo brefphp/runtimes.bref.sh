@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-use function GuzzleHttp\Promise\unwrap;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use GuzzleHttp\Client;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -41,10 +41,19 @@ $app->get('/', function (ServerRequestInterface $request, ResponseInterface $res
         return $response;
     }
 
+    $versions = listVersions();
+    $selectedVersion = $request->getQueryParams()['version'] ?? $versions[array_key_first($versions)];
+    if (!in_array($selectedVersion, $versions)) {
+        $response->getBody()->write('Unknown version');
+        return $response;
+    }
+
     return $this->view->render($response, 'index.html.twig', [
-        'layers' => listLayers($selectedRegion),
+        'layers' => listLayers($selectedVersion, $selectedRegion),
+        'versions' => $versions,
         'regions' => $regions,
         'selectedRegion' => $selectedRegion,
+        'selectedVersion' => $selectedVersion,
     ]);
 });
 
@@ -55,8 +64,11 @@ $app->get('/embedded', function (ServerRequestInterface $request, ResponseInterf
         return $response;
     }
 
+    $versions = listVersions();
+    $latestVersion = $versions[array_key_first($versions)];
+
     return $this->view->render($response, 'embedded.html.twig', [
-        'layers' => listLayers($selectedRegion),
+        'layers' => listLayers($latestVersion, $selectedRegion),
         'regions' => $regions,
         'selectedRegion' => $selectedRegion,
     ]);
@@ -64,45 +76,60 @@ $app->get('/embedded', function (ServerRequestInterface $request, ResponseInterf
 
 $app->run();
 
-function listLayers(string $selectedRegion): array
+function listLayers(string $version, string $region): array
 {
-    $lambda = new \Aws\Lambda\LambdaClient([
-        'version' => 'latest',
-        'region' => $selectedRegion,
-    ]);
+    $client = new Client();
+    $url = 'https://raw.githubusercontent.com/brefphp/bref/' . $version . '/layers.json';
 
-    $layerNames = [
-        'php-74',
-        'php-74-fpm',
-        'php-73',
-        'php-73-fpm',
-        'php-72',
-        'php-72-fpm',
-        'console',
-    ];
-
-    // Run the API calls in parallel (thanks to async)
-    $promises = array_combine($layerNames, array_map(function (string $layerName) use ($lambda, $selectedRegion) {
-        return $lambda->listLayerVersionsAsync([
-            'LayerName' => "arn:aws:lambda:$selectedRegion:209497400698:layer:$layerName",
-            'MaxItems' => 1,
-        ]);
-    }, $layerNames));
-
-    // Wait on all of the requests to complete. Throws a ConnectException
-    // if any of the requests fail
-    $results = unwrap($promises);
+    $response = $client->get($url);
+    $json = $response->getBody()->getContents();
+    $data = json_decode($json, true);
 
     $layers = [];
-    foreach ($results as $layerName => $result) {
-        $versions = $result['LayerVersions'];
-        $latestVersion = end($versions);
+    $accountId = '209497400698';
+
+    foreach ($data as $name => $regions) {
+        if (!isset($regions[$region])) {
+            continue;
+        }
+
         $layers[] = [
-            'name' => $layerName,
-            'version' => $latestVersion['Version'],
-            'arn' => $latestVersion['LayerVersionArn'],
+            'name' => $name,
+            'arn' => sprintf('arn:aws:lambda:%s:%s:layer:%s:%s', $region, $accountId, $name, $regions[$region]),
+            'version' => $regions[$region],
         ];
     }
 
     return $layers;
+}
+
+function listVersions(): array
+{
+    $client = new Client();
+    $url = 'https://api.github.com/repos/brefphp/bref/releases';
+
+    $response = $client->get($url);
+    $json = $response->getBody()->getContents();
+    $releases = json_decode($json, true);
+
+    $versions = [];
+
+    foreach ($releases as $release) {
+        // Skip prereleases (e.g., 0.5.14-beta1)
+        if ($release['prerelease']) {
+            continue;
+        }
+
+        // Skip releases prior to 0.5.0 as that's when layers.json was added
+        if (\Composer\Semver\Comparator::lessThan($release['name'], '0.5.0')) {
+            continue;
+        }
+
+        $versions[] = $release['name'];
+    }
+
+    // Sorting is needed as minor/patch releases can be published after major/minor releases
+    $versions = \Composer\Semver\Semver::rsort($versions);
+
+    return $versions;
 }
