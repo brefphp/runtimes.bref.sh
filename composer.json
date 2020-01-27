@@ -5,6 +5,7 @@
         "slim/twig-view": "^2.4",
         "roave/security-advisories": "dev-master",
         "guzzlehttp/guzzle": "^6.5",
-        "composer/semver": "^1.5"
+        "composer/semver": "^1.5",
+        "ext-json": "*"
     }
 }
