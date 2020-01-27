@@ -3,6 +3,8 @@
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use GuzzleHttp\Client;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -78,12 +80,21 @@ $app->run();
 
 function listLayers(string $version, string $region): array
 {
-    $client = new Client();
-    $url = 'https://raw.githubusercontent.com/brefphp/bref/' . $version . '/layers.json';
+    $cache = new FilesystemAdapter();
 
-    $response = $client->get($url);
-    $json = $response->getBody()->getContents();
-    $data = json_decode($json, true);
+    // Caching network calls to improve performance
+    $data = $cache->get('layers_' . $version, function (ItemInterface $item) use ($version) {
+        $item->expiresAfter(3600);
+
+        $client = new Client();
+        $url = 'https://raw.githubusercontent.com/brefphp/bref/' . $version . '/layers.json';
+
+        $response = $client->get($url);
+        $json = $response->getBody()->getContents();
+        $data = json_decode($json, true);
+
+        return $data;
+    });
 
     $layers = [];
     $accountId = '209497400698';
@@ -105,12 +116,21 @@ function listLayers(string $version, string $region): array
 
 function listVersions(): array
 {
-    $client = new Client();
-    $url = 'https://api.github.com/repos/brefphp/bref/releases';
+    $cache = new FilesystemAdapter();
 
-    $response = $client->get($url);
-    $json = $response->getBody()->getContents();
-    $releases = json_decode($json, true);
+    // Caching network call as GitHub's API is rate limited
+    $releases = $cache->get('releases', function (ItemInterface $item) {
+        $item->expiresAfter(3600);
+
+        $client = new Client();
+        $url = 'https://api.github.com/repos/brefphp/bref/releases';
+
+        $response = $client->get($url);
+        $json = $response->getBody()->getContents();
+        $releases = json_decode($json, true);
+
+        return $releases;
+    });
 
     $versions = [];
 
