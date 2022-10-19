@@ -6,6 +6,8 @@ use GuzzleHttp\Client;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 
+error_reporting(E_ALL ^ E_DEPRECATED);
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 $app = new \Slim\App([
@@ -49,7 +51,7 @@ $app->get('/', function (ServerRequestInterface $request, ResponseInterface $res
     }
 
     $versions = listVersions();
-    $selectedVersion = $request->getQueryParams()['version'] ?? $versions[array_key_first($versions)];
+    $selectedVersion = $request->getQueryParams()['version'] ?? $versions[array_key_first($versions) + 1];
     if (!in_array($selectedVersion, $versions)) {
         $response->getBody()->write('Unknown version');
         return $response;
@@ -103,6 +105,9 @@ function listLayers(string $version, string $region): array
 
     $layers = [];
     $accountId = '209497400698';
+    if ($version === 'v2' || strpos('2.', $version) === 0) {
+        $accountId = '534081306603';
+    }
 
     foreach ($data as $name => $regions) {
         if (!isset($regions[$region])) {
@@ -155,6 +160,8 @@ function listVersions(): array
 
     // Sorting is needed as minor/patch releases can be published after major/minor releases
     $versions = \Composer\Semver\Semver::rsort($versions);
+
+    array_unshift($versions, 'v2');
 
     return $versions;
 }

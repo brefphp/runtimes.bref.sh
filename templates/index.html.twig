@@ -51,7 +51,11 @@
                         <select class="block appearance-none w-full bg-white border border-grey-light hover:border-grey px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                                 id="versionSelector" name="version" onchange="this.form.submit()">
                             {% for version in versions %}
-                                <option value="{{ version }}" {% if version == selectedVersion %}selected{% endif %}>{{ version }}{%  if loop.first %} (latest){% endif %}</option>
+                                <option value="{{ version }}" {% if version == selectedVersion %}selected{% endif %}>
+                                    {{ version }}
+                                    {% if loop.index == 1 %} (beta){% endif %}
+                                    {% if loop.index == 2 %} (latest){% endif %}
+                                </option>
                             {% endfor %}
                         </select>
                         <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
