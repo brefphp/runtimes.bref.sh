@@ -74,7 +74,7 @@ $app->get('/embedded', function (ServerRequestInterface $request, ResponseInterf
     }
 
     $versions = listVersions();
-    $latestVersion = $versions[array_key_first($versions)];
+    $latestVersion = $versions[array_key_first($versions) + 1];
 
     return $this->view->render($response, 'embedded.html.twig', [
         'layers' => listLayers($latestVersion, $selectedRegion),
