@@ -27,6 +27,7 @@ $regions = [
     'eu-west-2',
     'eu-west-3',
     'eu-south-1',
+    'eu-south-2',
     'sa-east-1',
     'us-east-1',
     'us-east-2',
