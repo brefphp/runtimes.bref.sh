@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@bref.sh/constructs": "^0.1.0",
+    "aws-cdk-lib": "^2.55.0",
+    "constructs": "^10.0.0"
+  },
+  "devDependencies": {
+    "aws-cdk": "^2.55.0",
+    "ts-node": "^10.9.1"
+  }
+}

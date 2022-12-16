@@ -1,6 +1,6 @@
 {
     "require": {
-        "bref/bref": "0.4.1",
+        "bref/bref": "^2.0@beta",
         "slim/slim": "^3.11",
         "slim/twig-view": "^2.4",
         "roave/security-advisories": "dev-master",
