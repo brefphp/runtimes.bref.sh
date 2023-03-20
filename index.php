@@ -106,7 +106,7 @@ function listLayers(string $version, string $region): array
 
     $layers = [];
     $accountId = '209497400698';
-    if ($version === 'v2' || strpos('2.', $version) === 0) {
+    if ($version === 'v2' || strpos($version, '2.') === 0) {
         $accountId = '534081306603';
     }
 
