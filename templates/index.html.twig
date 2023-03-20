@@ -53,8 +53,7 @@
                             {% for version in versions %}
                                 <option value="{{ version }}" {% if version == selectedVersion %}selected{% endif %}>
                                     {{ version }}
-                                    {% if loop.index == 1 %} (beta){% endif %}
-                                    {% if loop.index == 2 %} (latest){% endif %}
+                                    {% if loop.index == 1 %} (latest){% endif %}
                                 </option>
                             {% endfor %}
                         </select>

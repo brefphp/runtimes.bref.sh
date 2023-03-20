@@ -162,7 +162,5 @@ function listVersions(): array
     // Sorting is needed as minor/patch releases can be published after major/minor releases
     $versions = \Composer\Semver\Semver::rsort($versions);
 
-    array_unshift($versions, 'v2');
-
     return $versions;
 }
