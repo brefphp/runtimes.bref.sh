@@ -52,7 +52,7 @@ $app->get('/', function (ServerRequestInterface $request, ResponseInterface $res
     }
 
     $versions = listVersions();
-    $selectedVersion = $request->getQueryParams()['version'] ?? $versions[array_key_first($versions) + 1];
+    $selectedVersion = $request->getQueryParams()['version'] ?? $versions[array_key_first($versions)];
     if (!in_array($selectedVersion, $versions)) {
         $response->getBody()->write('Unknown version');
         return $response;
