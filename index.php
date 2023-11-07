@@ -98,6 +98,9 @@ function listLayers(string $version, string $region): array
         $url = 'https://raw.githubusercontent.com/brefphp/bref/' . $version . '/layers.json';
 
         $response = $client->get($url);
+        if ($response->getStatusCode() !== 200) {
+            throw new \RuntimeException('Could not fetch layers from GitHub');
+        }
         $json = $response->getBody()->getContents();
         $data = json_decode($json, true);
 
@@ -137,6 +140,9 @@ function listVersions(): array
         $url = 'https://api.github.com/repos/brefphp/bref/releases';
 
         $response = $client->get($url);
+        if ($response->getStatusCode() !== 200) {
+            throw new \RuntimeException('Could not fetch releases from GitHub');
+        }
         $json = $response->getBody()->getContents();
         $releases = json_decode($json, true);
 
