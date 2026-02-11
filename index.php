@@ -112,6 +112,9 @@ function listLayers(string $version, string $region): array
     if ($version === 'v2' || strpos($version, '2.') === 0) {
         $accountId = '534081306603';
     }
+    if ($version === 'v3' || strpos($version, '3.') === 0) {
+        $accountId = '873528684822';
+    }
 
     foreach ($data as $name => $regions) {
         if (!isset($regions[$region])) {
@@ -153,12 +156,12 @@ function listVersions(): array
 
     foreach ($releases as $release) {
         // Skip prereleases (e.g., 0.5.14-beta1)
-        if ($release['prerelease']) {
-            continue;
-        }
+//        if ($release['prerelease']) {
+//            continue;
+//        }
 
-        // Skip releases prior to 0.5.0 as that's when layers.json was added
-        if (\Composer\Semver\Comparator::lessThan($release['name'], '0.5.0')) {
+        // Skip releases prior to 1.0.0
+        if (\Composer\Semver\Comparator::lessThan($release['name'], '1.0.0')) {
             continue;
         }
 
