@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import {Construct} from 'constructs';
-import {App, CfnOutput, Stack, StackProps} from 'aws-cdk-lib';
-import {FpmFunction} from '@bref.sh/constructs';
+import {App, CfnOutput, Duration, Stack, StackProps} from 'aws-cdk-lib';
+import {PhpFunction} from '@bref.sh/constructs';
 import {DomainName, LambdaRestApi} from 'aws-cdk-lib/aws-apigateway';
 import {EndpointType} from 'aws-cdk-lib/aws-apigateway';
 import {Certificate} from 'aws-cdk-lib/aws-certificatemanager';
@@ -10,10 +10,13 @@ class MyStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
         super(scope, id, props);
 
-        const handler = new FpmFunction(this, 'Web', {
+        const handler = new PhpFunction(this, 'Web', {
             functionName: 'bref-runtime-versions-v2',
             description: 'runtimes.bref.sh',
-            phpVersion: '8.2',
+            handler: 'handler.php',
+            phpVersion: '8.5',
+            // API Gateway has a 29s timeout
+            timeout: Duration.seconds(28),
         });
 
         const api = new LambdaRestApi(this, 'Api', {
